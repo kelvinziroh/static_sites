@@ -1,6 +1,6 @@
 import unittest
 
-from inline_md import split_nodes_delimiter
+from inline_md import *
 from textnode import *
 
 class TestInlineMD(unittest.TestCase):
@@ -80,4 +80,22 @@ class TestInlineMD(unittest.TestCase):
                 TextNode("'Chaos is a ladder'", TextType.ITALIC_TEXT),
                 TextNode(", he continued.", TextType.PLAIN_TEXT)
             ]
+        )
+    
+    def test_extract_image(self):
+        matches = extract_markdown_images(
+            "House Targaryen: ![targaryen sigil](https://i.imgur.com/ji3Jlsa3.png)"
+        )
+        self.assertListEqual(
+            matches,
+            [("targaryen sigil", "https://i.imgur.com/ji3Jlsa3.png")]
+        )
+    
+    def test_extract_multiple_images(self):
+        matches = extract_markdown_images(
+            "House Targaryen: ![targaryen sigil](https://i.imgur.com/ji3Jlsa3.png) vs house Lannister: ![](https://i.imgur.com/mi3NlFa4.png)"
+        )
+        self.assertListEqual(
+            matches,
+            [("targaryen sigil", "https://i.imgur.com/ji3Jlsa3.png"), ("", "https://i.imgur.com/mi3NlFa4.png")]
         )

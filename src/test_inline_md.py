@@ -261,3 +261,7 @@ class TestInlineMD(unittest.TestCase):
                 TextNode(" be with you", TextType.PLAIN_TEXT)
             ]
         )
+
+
+if __name__ == "__main__":
+    unittest.main()
